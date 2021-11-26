@@ -60,7 +60,8 @@
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <span class="text-danger float-right m-5">Already Registered ?
+                    <a href="{{ url('/') }}" class="btn btn-warning">Back</a>
+                    <span class="text-danger float-right m-4">Already Registered ?
                     <a href="{{ route('user.login') }}"> Login here</a></span>
                 </form>
             </div>
