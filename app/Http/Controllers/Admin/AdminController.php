@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     public function create(Request $request)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
             'password' => 'required',
             'cpassword' => 'required|same:password'
         ],[
@@ -22,13 +23,14 @@ class UserController extends Controller
             'cpassword.same' => 'The confirm password and password must match.'
         ]);
 
-        $user = new User();
+        $admin = new Admin();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        $admin->phone = $request->phone;
+        $admin->password = Hash::make($request->password);
 
-        $data = $user->save();
+        $data = $admin->save();
 
         if($data)
         {
@@ -43,17 +45,18 @@ class UserController extends Controller
     public function doLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:admins,email',
             'password' => 'required',
         ],[
             'email.exists' => 'This email is not registered in our system'
-        ]);
+        ]
+        );
 
         $check = $request->only('email', 'password');
 
-        if(Auth::guard('web')->attempt($check))
+        if(Auth::guard('admin')->attempt($check))
         {
-            return redirect()->route('user.home')->with('success', 'Welcome ' . Auth::guard('web')->user()->name);
+            return redirect()->route('admin.home')->with('success', 'Welcome ' . Auth::guard('admin')->user()->name);
         }
         else
         {
@@ -63,7 +66,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
 
         //return redirect()->route('user.login')->with('success', 'Logged out Successfully');
         return redirect('/');
