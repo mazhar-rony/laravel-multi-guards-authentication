@@ -1,0 +1,18 @@
+1. create 'UserController'
+2. create Routes for Users
+3. create Database
+4. Migrate into database
+5. create Views for (User) registration, login, home
+6. create methods for (User) registration, login, logout
+7. make (User) login & registration links in Welcome.blade.php file
+8. create 'AdminController'
+9. create Admin model with migration
+10. copy User model then paste & modify into Admin model
+11. copy User migration data then paste & modify into Admin migration file
+12. Migrate into database
+13. modify Authenticate.php & RedirectIfAuthenticated.php files in Middleware folder
+14. make new Guard named 'admin' in auth.php file in config folder
+15. create Routes for Admins
+16. create Views for (Admin) registration, login, home
+17. create methods for (Admin) registration, login, logout
+(Note: check registered middlewares in kernel.php file)
